@@ -26,7 +26,11 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text(
+          'My Current Location Tracker'
+        ),
+      ),
       body: GoogleMap(
         onMapCreated: (controller) async {
           animateToCurrentPosition(controller);
@@ -61,7 +65,7 @@ class _MapScreenState extends State<MapScreen> {
 
   void animateToCurrentPosition(GoogleMapController controller) async {
     for (double zoom = 5; zoom <= 22; zoom > 15 ? zoom += 1 : zoom += 0.3) {
-      await Future.delayed(Duration(milliseconds: 100)).whenComplete(() {
+      await Future.delayed(const Duration(milliseconds: 100)).whenComplete(() {
         controller.animateCamera(
           CameraUpdate.newCameraPosition(
               CameraPosition(target: currentPosition, zoom: zoom)),
@@ -96,7 +100,6 @@ class _MapScreenState extends State<MapScreen> {
         locationSettings: const LocationSettings(
       accuracy: LocationAccuracy.bestForNavigation,
     )).listen((position) {
-      print(position);
       currentPosition = LatLng(position.latitude, position.longitude);
       if (!traveledLine.contains(currentPosition)) {
         traveledLine.add(currentPosition);
